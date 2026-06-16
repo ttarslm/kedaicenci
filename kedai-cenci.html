@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kedai Cenci – Pedasnya Nampol, Rasanya Bikin Nagih!</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:    #C8102E;
+    --dark-red: #8B0000;
+    --gold:   #F5A623;
+    --cream:  #FDF6EC;
+    --dark:   #1A0500;
+    --text:   #FFFFFF;
+    --text-dark: #1A0500;
+  }
+
+  body { font-family: 'Poppins', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(26,5,0,0.95); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 5%;
+    border-bottom: 2px solid var(--red);
+  }
+  .logo-badge {
+    background: var(--gold);
+    border-radius: 6px;
+    padding: 4px 12px;
+    display: inline-block;
+    line-height: 1;
+    text-decoration: none;
+  }
+  .logo-badge .logo-kedai { display: block; font-family: 'Oswald', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--dark-red); letter-spacing: 2px; }
+  .logo-badge .logo-cenci { display: block; font-family: 'Oswald', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--dark-red); letter-spacing: 3px; margin-top: -2px; }
+
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav ul a { color: #fff; text-decoration: none; font-weight: 500; font-size: .9rem; transition: color .2s; }
+  nav ul a:hover { color: var(--gold); }
+
+  .btn-nav {
+    background: var(--red); color: #fff; font-weight: 700; font-size: .9rem;
+    border: none; border-radius: 6px; padding: 10px 20px; cursor: pointer;
+    text-decoration: none; display: flex; align-items: center; gap: 6px;
+    transition: background .2s;
+  }
+  .btn-nav:hover { background: #a30d24; }
+
+  /* ─── HERO ─── */
+  #hero {
+    background: linear-gradient(135deg, #1A0500 0%, #3d0d00 60%, #1A0500 100%);
+    min-height: 88vh;
+    display: flex; align-items: center;
+    padding: 60px 5%;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(200,16,46,0.18) 0%, transparent 65%);
+  }
+  .hero-content { max-width: 520px; position: relative; z-index: 2; }
+  .hero-eyebrow { font-size: .8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .hero-title {
+    font-family: 'Oswald', sans-serif; font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .hero-title .accent { color: var(--red); }
+  .hero-title .gold    { color: var(--gold); }
+  .hero-sub { margin: 20px 0 32px; font-size: .98rem; line-height: 1.7; color: #ddd; max-width: 400px; }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red); color: #fff; font-weight: 700; font-size: .95rem;
+    border: none; border-radius: 8px; padding: 14px 26px; cursor: pointer;
+    text-decoration: none; display: flex; align-items: center; gap: 8px;
+    transition: transform .15s, background .2s;
+  }
+  .btn-primary:hover { background: #a30d24; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: #fff; font-weight: 700; font-size: .95rem;
+    border: 2px solid #fff; border-radius: 8px; padding: 13px 24px; cursor: pointer;
+    text-decoration: none; display: flex; align-items: center; gap: 8px;
+    transition: background .2s, color .2s;
+  }
+  .btn-outline:hover { background: #fff; color: var(--dark); }
+
+  /* floating food labels */
+  .hero-food-area { position: absolute; right: 5%; top: 50%; transform: translateY(-50%); z-index: 2; width: 42%; max-width: 500px; }
+  .food-placeholder {
+    width: 100%; aspect-ratio: 1;
+    background: radial-gradient(circle at 50% 50%, rgba(200,16,46,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8rem;
+  }
+  .food-chip {
+    position: absolute; background: rgba(26,5,0,0.85); border: 1px solid var(--gold);
+    border-radius: 6px; padding: 6px 12px; font-size: .75rem; font-weight: 600;
+    color: var(--gold); text-transform: uppercase; letter-spacing: 1px;
+    backdrop-filter: blur(4px);
+  }
+  .food-chip.a { top: 10%; left: 5%; }
+  .food-chip.b { bottom: 20%; right: 2%; }
+  .food-chip.c { bottom: 8%; left: 10%; }
+
+  /* ─── SECTION SHELL ─── */
+  section { padding: 70px 5%; }
+  .section-title {
+    text-align: center;
+    font-family: 'Oswald', sans-serif; font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .section-title .chili { color: var(--red); }
+  .divider { width: 60px; height: 4px; background: var(--red); margin: 0 auto 48px; border-radius: 2px; }
+
+  /* ─── BESTSELLER STRIP ─── */
+  #bestseller { background: var(--red); padding: 20px 5%; }
+  .bs-inner { display: flex; align-items: center; gap: 18px; overflow-x: auto; scrollbar-width: none; }
+  .bs-inner::-webkit-scrollbar { display: none; }
+  .bs-label { font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; white-space: nowrap; letter-spacing: 2px; }
+  .bs-sep { color: rgba(255,255,255,0.4); }
+  .bs-chip {
+    white-space: nowrap; background: rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 6px 16px; font-size: .82rem; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .bs-new { background: var(--gold); color: var(--dark); }
+
+  /* ─── MENU ─── */
+  #menu { background: var(--cream); color: var(--text-dark); }
+  #menu .section-title { color: var(--text-dark); }
+  #menu .divider { background: var(--red); }
+
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+  .menu-cat {
+    background: #fff; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,.1);
+  }
+  .menu-cat-header {
+    background: var(--red); color: #fff;
+    padding: 12px 18px;
+    font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .menu-cat-body { padding: 16px 18px; }
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px dashed #e0d8d0;
+    font-size: .88rem;
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .item-name { flex: 1; font-weight: 500; line-height: 1.4; }
+  .item-name .badge {
+    display: inline-block; font-size: .68rem; font-weight: 700;
+    border-radius: 4px; padding: 1px 6px; margin-left: 4px; vertical-align: middle;
+  }
+  .badge-bs   { background: var(--red); color: #fff; }
+  .badge-new  { background: var(--gold); color: var(--dark); }
+  .item-price { font-weight: 700; color: var(--red); font-size: .88rem; text-align: right; white-space: nowrap; margin-left: 8px; line-height: 1.5; }
+  .item-price small { display: block; font-size: .74rem; color: #888; font-weight: 400; }
+
+  /* ─── LEVEL PEDAS ─── */
+  #level { background: #fff; color: var(--text-dark); }
+  #level .section-title { color: var(--text-dark); }
+  #level .divider { background: var(--red); }
+  .level-grid { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .level-card {
+    background: var(--cream); border-radius: 12px; padding: 20px 24px;
+    text-align: center; min-width: 110px; flex: 1; max-width: 140px;
+    border-top: 4px solid transparent;
+    transition: transform .2s;
+  }
+  .level-card:hover { transform: translateY(-4px); }
+  .level-card .flame { font-size: 1.6rem; margin-bottom: 6px; }
+  .level-card .lnum { font-family: 'Oswald', sans-serif; font-size: 1.15rem; font-weight: 700; }
+  .level-card .ldesc { font-size: .78rem; color: #666; margin-top: 4px; }
+  .l1 { border-color: #f7c59f; } .l2 { border-color: #f5a623; }
+  .l3 { border-color: #e87722; } .l4 { border-color: #c8102e; } .l5 { border-color: #8b0000; }
+  .extra-pedas-box {
+    background: var(--dark); color: #fff; border-radius: 12px;
+    padding: 24px 32px; display: flex; align-items: center; gap: 24px;
+    max-width: 600px; margin: 0 auto;
+  }
+  .ep-icon { font-size: 3rem; }
+  .ep-title { font-family: 'Oswald', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+  .ep-text { font-size: .88rem; color: #ccc; margin-top: 4px; }
+
+  /* ─── KENAPA PILIH ─── */
+  #kenapa { background: linear-gradient(135deg, #1A0500, #3d0d00); }
+  .kenapa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; }
+  .kenapa-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px; padding: 28px 20px; text-align: center;
+    transition: background .2s, transform .2s;
+  }
+  .kenapa-card:hover { background: rgba(200,16,46,.15); transform: translateY(-3px); }
+  .kenapa-icon { font-size: 2.4rem; margin-bottom: 12px; }
+  .kenapa-title { font-weight: 700; font-size: .95rem; margin-bottom: 6px; color: var(--gold); }
+  .kenapa-desc { font-size: .8rem; color: #bbb; line-height: 1.6; }
+
+  /* ─── CARA PESAN ─── */
+  #cara { background: var(--cream); color: var(--text-dark); }
+  #cara .section-title { color: var(--text-dark); }
+  #cara .divider { background: var(--red); }
+  .steps { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+  .step { text-align: center; padding: 12px 16px; flex: 1; min-width: 120px; max-width: 160px; }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--red); color: #fff;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 10px;
+  }
+  .step-icon { font-size: 1.5rem; margin-bottom: 6px; }
+  .step-text { font-size: .82rem; color: #555; line-height: 1.5; font-weight: 500; }
+  .step-arrow { padding-top: 22px; font-size: 1.4rem; color: var(--red); align-self: center; }
+
+  /* ─── ORDER CTA ─── */
+  #order-cta {
+    background: linear-gradient(135deg, #8B0000, #C8102E);
+    text-align: center; padding: 70px 5%;
+  }
+  #order-cta h2 {
+    font-family: 'Oswald', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800; text-transform: uppercase; margin-bottom: 10px;
+  }
+  #order-cta p { color: rgba(255,255,255,.85); margin-bottom: 32px; font-size: .95rem; }
+
+  /* ─── DELIVERY ─── */
+  #delivery { background: #fff; color: var(--text-dark); text-align: center; padding: 50px 5%; }
+  #delivery h3 { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+  #delivery p { font-size: .9rem; color: #666; margin-bottom: 28px; }
+  .delivery-logos { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+  .delivery-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: .9rem;
+    text-decoration: none; transition: transform .2s, opacity .2s;
+  }
+  .delivery-btn:hover { transform: translateY(-2px); opacity: .9; }
+  .gofood { background: #E92B2B; color: #fff; }
+  .shopeefood { background: #EE4D2D; color: #fff; }
+  .delivery-icon { font-size: 1.4rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #0d0200; padding: 40px 5% 24px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px; border-top: 2px solid var(--red);
+  }
+  .footer-logo .tagline { font-size: .8rem; color: #aaa; margin-top: 8px; }
+  footer h4 { font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 1px; color: var(--gold); margin-bottom: 14px; }
+  footer p, footer a { font-size: .85rem; color: #bbb; text-decoration: none; line-height: 2; display: block; }
+  footer a:hover { color: var(--gold); }
+  .footer-bottom {
+    grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 16px; font-size: .78rem; color: #666; text-align: center;
+  }
+
+  /* ─── WA FLOAT ─── */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    background: #25D366; color: #fff;
+    width: 58px; height: 58px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(37,211,102,.5);
+    transition: transform .2s;
+  }
+  .wa-float:hover { transform: scale(1.1); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .hero-food-area { display: none; }
+    #hero { padding-top: 50px; }
+    .steps { gap: 4px; }
+    .step-arrow { display: none; }
+    footer { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo-badge">
+    <span class="logo-kedai">KEDAI</span>
+    <span class="logo-cenci">CENCI</span>
+  </a>
+  <ul>
+    <li><a href="#hero">Beranda</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#level">Level Pedas</a></li>
+    <li><a href="#cara">Cara Order</a></li>
+    <li><a href="#delivery">Pesan Online</a></li>
+  </ul>
+  <a href="https://wa.me/+6281330381898" target="_blank" class="btn-nav">🛒 Pesan Sekarang</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">🌶️ Wonton &amp; Mie Pedas Kekinian</p>
+    <h1 class="hero-title">
+      Pedasnya<br>
+      <span class="accent">Nampol,</span><br>
+      Rasanya<br>
+      <span class="gold">Bikin Nagih!</span>
+    </h1>
+    <p class="hero-sub">Kedai Cenci menyajikan aneka makanan pedas dengan bumbu pilihan dan level pedas sesuai selera kamu — dari sedikit pedas sampai gila pedas! 🔥</p>
+    <div class="hero-cta">
+      <a href="https://wa.me/+6281330381898" target="_blank" class="btn-primary">🛒 Pesan Sekarang</a>
+      <a href="https://wa.me/+6281330381898" target="_blank" class="btn-outline">💬 Chat WhatsApp</a>
+    </div>
+  </div>
+  <div class="hero-food-area">
+    <div class="food-placeholder">🍜</div>
+    <span class="food-chip a">Mie Jebew Creamy 🔥 NEW</span>
+    <span class="food-chip b">Wonton Creamy ⭐</span>
+    <span class="food-chip c">Basreng Jontor 🌶️</span>
+  </div>
+</section>
+
+<!-- BESTSELLER STRIP -->
+<div id="bestseller">
+  <div class="bs-inner">
+    <span class="bs-label">⭐ BESTSELLER</span>
+    <span class="bs-sep">|</span>
+    <span class="bs-chip">🥟 Wonton Creamy</span>
+    <span class="bs-chip">🍜 Wonton Basah</span>
+    <span class="bs-chip">🍲 Wonton Kuah</span>
+    <span class="bs-chip">🍝 Mie Jebew</span>
+    <span class="bs-chip">🍳 Nasi Telur Bakar</span>
+    <span class="bs-sep">|</span>
+    <span class="bs-chip bs-new">🔥 Mie Jebew Creamy — MENU BARU!</span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <h2 class="section-title">🌶️ <span class="chili">Menu</span> Kedai Cenci 🌶️</h2>
+  <div class="divider"></div>
+
+  <div class="menu-grid">
+
+    <!-- WONTON -->
+    <div class="menu-cat">
+      <div class="menu-cat-header">🥟 Wonton</div>
+      <div class="menu-cat-body">
+        <div class="menu-item">
+          <span class="item-name">Wonton Creamy <span class="badge badge-bs">⭐ BEST</span></span>
+          <span class="item-price">Mulai 15K<small>Lv 1-2: 15K / Lv 3-5: 18K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Wonton Goreng</span>
+          <span class="item-price">Mulai 10K<small>Lv 1-2: 10K / Lv 3-5: 12K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Wonton Basah <span class="badge badge-bs">⭐ BEST</span></span>
+          <span class="item-price">Mulai 10K<small>Lv 1-2: 10K / Lv 3-5: 12K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Wonton Kuah <span class="badge badge-bs">⭐ BEST</span></span>
+          <span class="item-price">Mulai 13K<small>Lv 1-2: 13K / Lv 3-5: 15K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Wonton Mentai</span>
+          <span class="item-price">Mulai 16K<small>Size M: 16K / Size L: 28K</small></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU UTAMA -->
+    <div class="menu-cat">
+      <div class="menu-cat-header">🍜 Menu Utama</div>
+      <div class="menu-cat-body">
+        <div class="menu-item">
+          <span class="item-name">Mie Jebew Creamy <span class="badge badge-new">🔥 BARU</span></span>
+          <span class="item-price">18K</span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Mie Jebew <span class="badge badge-bs">⭐ BEST</span></span>
+          <span class="item-price">Mulai 9K<small>Lv 1-2: 9K / Lv 3-5: 11K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Basreng Jontor</span>
+          <span class="item-price">Mulai 10K<small>Lv 1-2: 10K / Lv 3-5: 12K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Pentol Dower</span>
+          <span class="item-price">Mulai 10K<small>Lv 1-2: 10K / Lv 3-5: 12K</small></span>
+        </div>
+        <div class="menu-item">
+          <span class="item-name">Nasi Telur Bakar <span class="badge badge-bs">⭐ BEST</span></span>
+          <span class="item-price">10K</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOPPING -->
+    <div class="menu-cat">
+      <div class="menu-cat-header">🍢 Topping</div>
+      <div class="menu-cat-body">
+        <div class="menu-item"><span class="item-name">Wonton</span><span class="item-price">2K</span></div>
+        <div class="menu-item"><span class="item-name">Bakso</span><span class="item-price">1K</span></div>
+        <div class="menu-item"><span class="item-name">Bakso Urat Jumbo</span><span class="item-price">6K</span></div>
+        <div class="menu-item"><span class="item-name">Telur</span><span class="item-price">4K</span></div>
+        <div class="menu-item"><span class="item-name">Chili Oil 🌶️</span><span class="item-price">3K</span></div>
+      </div>
+    </div>
+
+    <!-- MINUMAN -->
+    <div class="menu-cat">
+      <div class="menu-cat-header">🍹 Minuman</div>
+      <div class="menu-cat-body">
+        <div class="menu-item"><span class="item-name">Teh (Es/Panas)</span><span class="item-price">3K</span></div>
+        <div class="menu-item"><span class="item-name">Chocolatos (Es/Panas)</span><span class="item-price">5K</span></div>
+        <div class="menu-item"><span class="item-name">Es Nutrisari</span><span class="item-price">4K</span></div>
+        <div class="menu-item"><span class="item-name">Es Goodday</span><span class="item-price">5K</span></div>
+        <div class="menu-item"><span class="item-name">Es Susu</span><span class="item-price">5K</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LEVEL PEDAS -->
+<section id="level">
+  <h2 class="section-title">Pilih <span class="chili">Level Pedasmu!</span></h2>
+  <div class="divider"></div>
+  <div class="level-grid">
+    <div class="level-card l1"><div class="flame">🌶️</div><div class="lnum">Level 1</div><div class="ldesc">Sedikit Pedas</div></div>
+    <div class="level-card l2"><div class="flame">🌶️🌶️</div><div class="lnum">Level 2</div><div class="ldesc">Normal</div></div>
+    <div class="level-card l3"><div class="flame">🌶️🌶️🌶️</div><div class="lnum">Level 3</div><div class="ldesc">Pedas</div></div>
+    <div class="level-card l4"><div class="flame">🌶️🌶️🌶️🌶️</div><div class="lnum">Level 4</div><div class="ldesc">Pedas Nampol</div></div>
+    <div class="level-card l5"><div class="flame">🌶️🌶️🌶️🌶️🌶️</div><div class="lnum">Level 5</div><div class="ldesc">Gila Pedas</div></div>
+  </div>
+  <div class="extra-pedas-box">
+    <div class="ep-icon">🔥</div>
+    <div>
+      <div class="ep-title">Extra Pedas? Tambah Chili Oil!</div>
+      <div class="ep-text">Mau makin panas? Tambah Chili Oil seharga IDR 3K biar pedasnya makin nampol dan bikin nagih!</div>
+    </div>
+  </div>
+</section>
+
+<!-- KENAPA PILIH -->
+<section id="kenapa">
+  <h2 class="section-title">Kenapa Pilih <span class="chili">Kedai Cenci?</span></h2>
+  <div class="divider"></div>
+  <div class="kenapa-grid">
+    <div class="kenapa-card"><div class="kenapa-icon">🌶️</div><div class="kenapa-title">Level Pedas Bisa Dipilih</div><div class="kenapa-desc">Sesuaikan pedas sesuai selera kamu, dari sedikit sampai gila pedas</div></div>
+    <div class="kenapa-card"><div class="kenapa-icon">💰</div><div class="kenapa-title">Harga Terjangkau</div><div class="kenapa-desc">Rasa enak, harga bersahabat. Mulai dari 9K saja!</div></div>
+    <div class="kenapa-card"><div class="kenapa-icon">🍽️</div><div class="kenapa-title">Menu Variatif</div><div class="kenapa-desc">Banyak pilihan menu dari wonton, mie, hingga basreng dan pentol</div></div>
+    <div class="kenapa-card"><div class="kenapa-icon">🔥</div><div class="kenapa-title">Cocok untuk Pecinta Pedas</div><div class="kenapa-desc">Bumbu pilihan, pedasnya nampol dan bikin ketagihan!</div></div>
+    <div class="kenapa-card"><div class="kenapa-icon">🚀</div><div class="kenapa-title">Praktis & Cepat</div><div class="kenapa-desc">Pesan dulu lewat WhatsApp, tinggal datang langsung — bebas antre!</div></div>
+  </div>
+</section>
+
+<!-- CARA PESAN -->
+<section id="cara">
+  <h2 class="section-title">Cara <span class="chili">Pesan</span></h2>
+  <div class="divider"></div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-icon">📋</div>
+      <div class="step-text">Pilih menu yang kamu suka</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-icon">🌶️</div>
+      <div class="step-text">Tentukan level pedas & topping</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-icon">💬</div>
+      <div class="step-text">Klik "Pesan Sekarang" atau Chat WhatsApp</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-icon">⚡</div>
+      <div class="step-text">Pesanan diproses dengan cepat</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-icon">😋</div>
+      <div class="step-text">Pesanan siap dinikmati!</div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER CTA -->
+<section id="order-cta">
+  <h2>Siap Coba Pedasnya<br>Kedai Cenci? 🔥</h2>
+  <p>Nugas atau kelas mepet? Pesan dulu lewat WhatsApp — begitu sampai, langsung tinggal ambil. Gak pake antre!</p>
+  <a href="https://wa.me/+6281330381898" target="_blank" class="btn-primary" style="display:inline-flex; font-size:1rem; padding:16px 36px;">
+    🛒 ORDER SEKARANG
+  </a>
+</section>
+
+<!-- DELIVERY -->
+<section id="delivery">
+  <h3>Mager Keluar Kosan? Gapapa!</h3>
+  <p>Kedai Cenci kini tersedia di aplikasi pesan antar favoritmu</p>
+  <div class="delivery-logos">
+    <a href="#" class="delivery-btn gofood">
+      <span class="delivery-icon">🛵</span> GoFood
+    </a>
+    <a href="#" class="delivery-btn shopeefood">
+      <span class="delivery-icon">🛍️</span> ShopeeFood
+    </a>
+  </div>
+  <p style="margin-top: 16px; font-size:.8rem; color:#aaa;">*Link akan diarahkan ke halaman Kedai Cenci di masing-masing aplikasi</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <a href="#hero" class="logo-badge" style="display:inline-block;">
+      <span class="logo-kedai">KEDAI</span>
+      <span class="logo-cenci">CENCI</span>
+    </a>
+    <p class="tagline">Pedasnya Nampol, Rasanya Bikin Nagih!</p>
+  </div>
+  <div>
+    <h4>Hubungi Kami</h4>
+    <a href="https://wa.me/+6281330381898" target="_blank">💬 WhatsApp: 081330381898</a>
+    <a href="#">📷 Instagram: @kedai.cenci</a>
+  </div>
+  <div>
+    <h4>Jam Operasional</h4>
+    <p>🕙 Setiap Hari</p>
+    <p>10.00 – 22.00 WIB</p>
+  </div>
+  <div>
+    <h4>Temukan Kami</h4>
+    <a href="#">📍 Kedai Cenci, Kota Anda</a>
+    <a href="https://wa.me/+6281330381898" target="_blank">🛒 Pesan via WhatsApp</a>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Kedai Cenci. Pedasnya Nampol, Rasanya Bikin Nagih! 🌶️</p>
+  </div>
+</footer>
+
+<!-- WhatsApp Float Button -->
+<a href="https://wa.me/+6281330381898" target="_blank" class="wa-float" title="Chat WhatsApp">💬</a>
+
+</body>
+</html>
